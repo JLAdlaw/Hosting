@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>John Lloyd Adlaw | Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+
+    :root {
+      --bg: #f5f2eb;
+      --bg-secondary: #ede9e0;
+      --ink: #0e0e0e;
+      --ink-mid: #3a3a3a;
+      --ink-light: #888;
+      --accent: #c8472b;
+      --accent-2: #1a4c6e;
+      --white: #fdfcf9;
+      --card-bg: #fdfcf9;
+      --nav-bg: #f5f2eb;
+      --border: rgba(14,14,14,0.12);
+      --shadow: 0 8px 40px rgba(14,14,14,0.10);
+      --radius: 4px;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --font-mono: 'Space Mono', monospace;
+    }
+
+    body.dark {
+      --bg: #0e0e0e;
+      --bg-secondary: #181818;
+      --ink: #f0ece3;
+      --ink-mid: #c5bfb5;
+      --ink-light: #6b6560;
+      --accent: #e05c3a;
+      --accent-2: #4ca3cc;
+      --white: #111;
+      --card-bg: #161616;
+      --nav-bg: #0e0e0e;
+      --border: rgba(240,236,227,0.10);
+      --shadow: 0 8px 40px rgba(0,0,0,0.40);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      transition: background 0.4s ease, color 0.4s ease;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+
+    #home, #about, #projects, #contact { scroll-margin-top: 80px; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.active { opacity: 1; transform: none; }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal-left.active { opacity: 1; transform: none; }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+    .delay-4 { transition-delay: 0.4s; }
+    .delay-5 { transition-delay: 0.5s; }
+    .delay-6 { transition-delay: 0.6s; }
+
+    /* ─── Navbar ─────────────────────────────── */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--nav-bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.5rem, 5vw, 4rem);
+      height: 72px;
+      transition: background 0.4s ease, border-color 0.4s ease;
+    }
+    .navbar-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+    }
+    .navbar-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1.5px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .theme-btn {
+      background: none;
+      border: 1px solid var(--border);
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.2s, border-color 0.2s;
+      color: var(--ink);
+    }
+    .theme-btn:hover { background: var(--bg-secondary); }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--ink);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 72px; left: 0; right: 0; bottom: 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      transition: color 0.2s;
+    }
+    .mobile-menu a:hover { color: var(--accent); }
+
+    /* ─── Hero ───────────────────────────────── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr;
+      place-items: center;
+      padding: 120px clamp(1.5rem, 8vw, 8rem) 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-text {
+      position: absolute;
+      bottom: -0.05em;
+      left: -0.02em;
+      font-family: var(--font-display);
+      font-size: clamp(8rem, 22vw, 20rem);
+      font-weight: 800;
+      color: var(--bg-secondary);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+      letter-spacing: -0.04em;
+      transition: color 0.4s;
+      z-index: 0;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 40px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-name {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      margin-bottom: 2rem;
+    }
+    .hero-name .name-highlight {
+      color: var(--accent);
+    }
+    .hero-tagline {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: var(--ink-mid);
+      max-width: 520px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      line-height: 1.7;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-primary {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 1rem 2rem;
+      border: 2px solid var(--ink);
+      display: inline-block;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+    }
+    .btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--white);
+    }
+    .btn-ghost {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: transparent;
+      color: var(--ink);
+      padding: 1rem 2rem;
+      border: 2px solid var(--border);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: border-color 0.25s, color 0.25s;
+    }
+    .btn-ghost:hover { border-color: var(--ink); }
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0.4;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: var(--ink);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { transform: scaleY(1); opacity: 1; }
+      50% { transform: scaleY(0.5); opacity: 0.3; }
+    }
+
+    /* ─── Section shared ─────────────────────── */
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 30px; height: 1px;
+      background: var(--accent);
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ─── About Section ──────────────────────── */
+    #about {
+      background: var(--bg);
+      padding: clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .about-photo-col {
+      position: relative;
+    }
+    .about-photo-frame {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 420px;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+}
+    .about-photo-frame::before {
+      content: '';
+      position: absolute;
+      top: 16px; left: 16px;
+      right: -16px; bottom: -16px;
+      border: 2px solid var(--accent);
+      z-index: 0;
+    }
+    .about-photo-frame img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  filter: grayscale(20%);
+}
+    .about-photo-badge {
+  display: none;
+}
+    .about-text-col { padding-top: 1rem; }
+    .about-intro {
+      font-size: 1.15rem;
+      color: var(--ink-mid);
+      font-weight: 300;
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+    .about-intro strong { color: var(--ink); font-weight: 500; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .skill-item {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--ink-mid);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .skill-item::before {
+      content: '▸';
+      color: var(--accent);
+      font-size: 0.8rem;
+    }
+    .about-stats {
+      display: flex;
+      gap: 3rem;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat-num span { color: var(--accent); }
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-top: 0.25rem;
+    }
+
+    /* ─── Projects Section ───────────────────── */
+    #projects {
+      background: var(--bg-secondary);
+      padding: clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem);
+      transition: background 0.4s;
+    }
+    .projects-header {
+      max-width: 1100px;
+      margin: 0 auto 4rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: auto;
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s cubic-bezier(.16,1,.3,1), border-color 0.35s;
+      cursor: pointer;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 60px rgba(14,14,14,0.12);
+      border-color: var(--accent);
+    }
+    .project-card:nth-child(1) { grid-column: span 7; }
+    .project-card:nth-child(2) { grid-column: span 5; }
+    .project-card:nth-child(3) { grid-column: span 4; }
+    .project-card:nth-child(4) { grid-column: span 4; }
+    .project-card:nth-child(5) { grid-column: span 4; }
+    .project-card:nth-child(6) { grid-column: span 12; }
+
+    .project-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--bg-secondary);
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card:nth-child(1) .project-thumb { aspect-ratio: 16/8; }
+    .project-card:nth-child(6) .project-thumb { aspect-ratio: 21/6; }
+
+    .project-thumb-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--border);
+      user-select: none;
+      transition: transform 0.5s cubic-bezier(.16,1,.3,1);
+      position: relative;
+    }
+    .project-card:hover .project-thumb-inner { transform: scale(1.04); }
+
+    .project-card:nth-child(1) .project-thumb { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .project-card:nth-child(2) .project-thumb { background: linear-gradient(135deg, #1a472a 0%, #2d6a4f 100%); }
+    .project-card:nth-child(3) .project-thumb { background: linear-gradient(135deg, #7b2d00 0%, #c8472b 100%); }
+    .project-card:nth-child(4) .project-thumb { background: linear-gradient(135deg, #1c1c1c 0%, #3a3a3a 100%); }
+    .project-card:nth-child(5) .project-thumb { background: linear-gradient(135deg, #0d2137 0%, #1a4c6e 100%); }
+    .project-card:nth-child(6) .project-thumb { background: linear-gradient(135deg, #2c1654 0%, #4a0e8f 100%); }
+
+    .project-thumb-icon {
+      font-size: clamp(2.5rem, 5vw, 5rem);
+      opacity: 0.7;
+    }
+    .project-body {
+      padding: 1.5rem;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
+    }
+    .project-tag {
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--bg-secondary);
+      color: var(--ink-mid);
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+      line-height: 1.2;
+    }
+    .project-desc {
+      font-size: 0.85rem;
+      color: var(--ink-mid);
+      line-height: 1.65;
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .project-link:hover { border-bottom-color: var(--accent); }
+
+    /* ─── Contact Section ────────────────────── */
+    #contact {
+      background: var(--bg);
+      padding: clamp(5rem, 12vw, 10rem) clamp(1.5rem, 8vw, 8rem);
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .contact-big-text {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+    .contact-big-text em { color: var(--accent); font-style: normal; }
+    .contact-detail-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+    .contact-detail-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .contact-detail-icon {
+      width: 36px; height: 36px;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.9rem;
+    }
+    .contact-detail-text {
+      font-size: 0.9rem;
+      color: var(--ink-mid);
+      line-height: 1.5;
+    }
+    .contact-detail-text strong {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.2rem;
+      font-weight: 400;
+    }
+
+    /* Form */
+    .form-group { margin-bottom: 1.25rem; }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.5rem;
+    }
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      padding: 0.9rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      border-radius: 0;
+    }
+    .form-input:focus,
+    .form-textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(200,71,43,0.08);
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--ink-light); }
+    .form-textarea { resize: vertical; min-height: 130px; }
+
+    /* Submissions table */
+    .submissions-wrapper {
+      max-width: 1100px;
+      margin: 4rem auto 0;
+      display: none;
+    }
+    .submissions-wrapper.visible { display: block; }
+    .submissions-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+    .table-scroll { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+    }
+    thead { background: var(--ink); color: var(--bg); }
+    th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 1rem 1.25rem;
+      text-align: left;
+      font-weight: 400;
+    }
+    td {
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--ink-mid);
+      vertical-align: top;
+    }
+    tbody tr:hover { background: var(--bg-secondary); }
+    .tbl-action-btn {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      margin-right: 1rem;
+      transition: color 0.2s;
+    }
+    .tbl-view { color: var(--accent-2); }
+    .tbl-delete { color: var(--accent); }
+    .tbl-view:hover { color: var(--ink); }
+    .tbl-delete:hover { color: var(--ink); }
+
+    .clear-all-btn {
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: none;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 0.7rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s;
+    }
+    .clear-all-btn:hover { background: var(--accent); color: white; }
+
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 200;
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-card {
+      background: var(--card-bg);
+      max-width: 500px;
+      width: 100%;
+      padding: 2.5rem;
+      position: relative;
+      border: 1px solid var(--border);
+      animation: modalIn 0.35s cubic-bezier(.16,1,.3,1);
+    }
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.97); }
+      to { opacity: 1; transform: none; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem; right: 1.25rem;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--ink-light);
+      background: none;
+      border: none;
+      line-height: 1;
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.75rem;
+    }
+    .modal-field { margin-bottom: 1.25rem; }
+    .modal-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 0.3rem;
+    }
+    .modal-value {
+      font-size: 0.95rem;
+      color: var(--ink-mid);
+      line-height: 1.6;
+      word-break: break-word;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    /* ─── Footer ─────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: var(--bg);
+      padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 8vw, 8rem);
+    }
+    .footer-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 4rem;
+      align-items: start;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 2rem;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.9;
+      color: var(--bg);
+    }
+    .footer-logo em {
+      color: var(--accent);
+      font-style: normal;
+    }
+    .footer-tagline {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-top: 1rem;
+    }
+    .footer-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      text-align: right;
+    }
+    .footer-nav a {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      transition: color 0.2s;
+    }
+    .footer-nav a:hover { color: var(--accent); }
+    .footer-bottom {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.3);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .social-icon {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.45);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .social-icon:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-contact-strip {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      gap: 3rem;
+      padding-bottom: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-contact-item {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+    }
+    .footer-contact-item a { color: rgba(255,255,255,0.6); transition: color 0.2s; }
+    .footer-contact-item a:hover { color: var(--accent); }
+
+    /* ─── Responsive ─────────────────────────── */
+    @media (max-width: 900px) {
+      .about-grid,
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .about-photo-frame { max-width: 340px; }
+      .projects-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .project-card:nth-child(n) { grid-column: span 1; }
+      .project-card:nth-child(1) { grid-column: span 2; }
+      .project-card:nth-child(6) { grid-column: span 2; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-nav { text-align: left; flex-direction: row; flex-wrap: wrap; gap: 1.25rem; }
+      .projects-header { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero { padding: 100px 1.5rem 80px; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card:nth-child(n) { grid-column: span 1; }
+      .about-stats { gap: 2rem; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .contact-grid { gap: 2.5rem; }
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 1rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: none; }
+    .toast.success { border-left: 3px solid #22c55e; }
+    .toast.error { border-left: 3px solid var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─────────────────────────────── -->
+<header class="navbar" role="banner">
+  <a href="#home" class="navbar-logo">JL<span>.</span></a>
+
+  <nav aria-label="Primary navigation">
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div style="display:flex; align-items:center; gap:0.75rem;">
+    <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode" title="Toggle theme">🌙</button>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Mobile navigation">
+  <a href="#home" class="mobile-nav-link">Home</a>
+  <a href="#about" class="mobile-nav-link">About</a>
+  <a href="#projects" class="mobile-nav-link">Projects</a>
+  <a href="#contact" class="mobile-nav-link">Contact</a>
+</div>
+
+<!-- ─── HERO ───────────────────────────────── -->
+<section class="hero" id="home" aria-label="Introduction">
+  <div class="hero-bg-text" aria-hidden="true">DEV</div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow reveal">Web Developer &amp; Aspiring Developer</p>
+    <h1 class="hero-name reveal delay-1">
+      JOHN<br>
+      LLOYD<br>
+      <span class="name-highlight">ADLAW</span>
+    </h1>
+    <p class="hero-tagline reveal delay-2">
+      I craft digital experiences that are fast, purposeful, and beautifully built — from concept to code.
+    </p>
+    <div class="hero-actions reveal delay-3">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-ghost">
+        Get in Touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</section>
+
+<!-- ─── ABOUT ──────────────────────────────── -->
+<section id="about" aria-label="About me">
+  <div class="about-grid">
+    <div class="about-photo-col reveal-left">
+      <div class="about-photo-frame">
+  <img src="photo.jpg"
+     alt="John Lloyd Adlaw — Web Developer based in Davao City, Philippines"
+     style="width:100%; height:100%; object-fit:cover; object-position:center top; display:block;"
+     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+  <div style="display:none; width:100%; max-width:420px; aspect-ratio:3/4; background: linear-gradient(135deg, #1a4c6e, #0f3460); align-items:center; justify-content:center; font-family:var(--font-display); font-size:6rem; font-weight:800; color:rgba(255,255,255,0.15);">JL</div>
+  <div class="about-photo-badge">
+    Based in<br>Davao City,<br>Philippines
+  </div>
+</div>
+    </div>
+
+    <div class="about-text-col">
+      <p class="section-label reveal">About Me</p>
+      <h2 class="section-title reveal delay-1">Turning Ideas Into<br>Digital Reality</h2>
+
+      <p class="about-intro reveal delay-2">
+        I'm <strong>John Lloyd Adlaw</strong>, a passionate web developer who loves building clean, responsive, and user-friendly digital experiences. With a strong foundation in both front-end and back-end technologies, I bring designs to life with precision and care.
+      </p>
+      <p class="about-intro reveal delay-2" style="margin-top: -0.75rem;">
+        I believe that great software is both <strong>beautiful and functional</strong> — and I obsess over every detail to make that happen. Whether it's a personal portfolio or a full-stack app, I bring the same level of craft to every project.
+      </p>
+
+      <div class="skills-grid reveal delay-3">
+        <span class="skill-item">HTML5 / CSS3</span>
+        <span class="skill-item">JavaScript (ES6+)</span>
+        <span class="skill-item">React.js</span>
+        <span class="skill-item">Node.js</span>
+        <span class="skill-item">Tailwind CSS</span>
+        <span class="skill-item">PHP / MySQL</span>
+        <span class="skill-item">Git &amp; GitHub</span>
+        <span class="skill-item">Responsive Design</span>
+      </div>
+
+      <div class="about-stats reveal delay-4">
+        <div>
+          <div class="stat-num">3<span>+</span></div>
+          <div class="stat-label">Years Coding</div>
+        </div>
+        <div>
+          <div class="stat-num">10<span>+</span></div>
+          <div class="stat-label">Projects Built</div>
+        </div>
+        <div>
+          <div class="stat-num">100<span>%</span></div>
+          <div class="stat-label">Passion</div>
+        </div>
+      </div>
+
+      <div class="reveal delay-5">
+        <a href="#contact" class="btn-primary">Let's Work Together</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ────────────────────────────── -->
+<section id="projects" aria-label="Projects">
+  <div class="projects-header reveal">
+    <div>
+      <p class="section-label">Featured Work</p>
+      <h2 class="section-title">Projects</h2>
+    </div>
+    <p style="font-size:0.9rem; color:var(--ink-mid); max-width:280px; text-align:right; line-height:1.7;">
+      A selection of work I've built — from web apps to interactive interfaces.
+    </p>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Card 1 -->
+    <article class="project-card reveal" aria-label="Portfolio Website project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner">
+          <span class="project-thumb-icon">🌐</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">HTML</span>
+          <span class="project-tag">CSS</span>
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">Featured</span>
+        </div>
+        <h3 class="project-title">Personal Portfolio Website</h3>
+        <p class="project-desc">A fully responsive personal portfolio with dark mode, scroll animations, and a contact form with persistent local storage. Built from scratch with clean, semantic HTML and CSS.</p>
+        <a href="#" class="project-link">
+          View Project
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="project-card reveal delay-1" aria-label="Task Manager App project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner">
+          <span class="project-thumb-icon">✅</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">React</span>
+          <span class="project-tag">Tailwind</span>
+        </div>
+        <h3 class="project-title">Task Manager App</h3>
+        <p class="project-desc">A drag-and-drop task manager with categories, priorities, and deadline tracking.</p>
+        <a href="#" class="project-link">
+          View Project
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+        </a>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="project-card reveal" aria-label="E-Commerce Store project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner">
+          <span class="project-thumb-icon">🛒</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">PHP</span>
+          <span class="project-tag">MySQL</span>
+        </div>
+        <h3 class="project-title">E-Commerce Store</h3>
+        <p class="project-desc">Full-stack shopping platform with cart, auth, and admin dashboard.</p>
+        <a href="#" class="project-link">View Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="project-card reveal delay-1" aria-label="Weather Dashboard project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner">
+          <span class="project-thumb-icon">🌤️</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">JavaScript</span>
+          <span class="project-tag">API</span>
+        </div>
+        <h3 class="project-title">Weather Dashboard</h3>
+        <p class="project-desc">Real-time weather app using OpenWeather API with 5-day forecasts.</p>
+        <a href="#" class="project-link">View Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="project-card reveal delay-2" aria-label="Chat Application project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner">
+          <span class="project-thumb-icon">💬</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">Node.js</span>
+          <span class="project-tag">Socket.io</span>
+        </div>
+        <h3 class="project-title">Real-Time Chat App</h3>
+        <p class="project-desc">WebSocket-powered chat with rooms, typing indicators, and online presence.</p>
+        <a href="#" class="project-link">View Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="project-card reveal" aria-label="Student Information System project">
+      <div class="project-thumb">
+        <div class="project-thumb-inner" style="flex-direction:row; gap:2rem; font-size:clamp(2rem,3vw,3.5rem);">
+          <span>🎓</span>
+          <span style="font-family:var(--font-display); font-size:clamp(1.5rem,3vw,3rem); color:rgba(255,255,255,0.2); font-weight:800;">STUDENT INFORMATION SYSTEM</span>
+        </div>
+      </div>
+      <div class="project-body">
+        <div class="project-tags">
+          <span class="project-tag">PHP</span>
+          <span class="project-tag">MySQL</span>
+          <span class="project-tag">Bootstrap</span>
+          <span class="project-tag">Full Stack</span>
+        </div>
+        <h3 class="project-title">Student Information System</h3>
+        <p class="project-desc">A comprehensive school management system with enrollment, grading, scheduling, and report generation. Includes role-based access for admins, faculty, and students.</p>
+        <a href="#" class="project-link">View Project <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg></a>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ─── CONTACT ─────────────────────────────── -->
+<section id="contact" aria-label="Contact">
+  <div class="contact-grid">
+
+    <div class="contact-info-col">
+      <p class="section-label reveal">Contact</p>
+      <h2 class="contact-big-text reveal delay-1">
+        Let's Build<br>Something<br><em>Together.</em>
+      </h2>
+      <ul class="contact-detail-list reveal delay-2">
+        <li class="contact-detail-item">
+          <div class="contact-detail-icon" aria-hidden="true">✉</div>
+          <div class="contact-detail-text">
+            <strong>Email</strong>
+            <a href="mailto:j.adlao20@gmail.com">j.adlao20@gmail.com</a>
+          </div>
+        </li>
+        <li class="contact-detail-item">
+          <div class="contact-detail-icon" aria-hidden="true">📱</div>
+          <div class="contact-detail-text">
+            <strong>Phone</strong>
+            <a href="tel:+639151898630">+63 915 189 8630</a>
+          </div>
+        </li>
+        <li class="contact-detail-item">
+          <div class="contact-detail-icon" aria-hidden="true">📍</div>
+          <div class="contact-detail-text">
+            <strong>Location</strong>
+            Davao City, Philippines
+          </div>
+        </li>
+      </ul>
+
+      <div class="reveal delay-3" style="display:flex; gap:0.75rem;">
+        <a href="https://www.facebook.com/johnlloyd.adlao.1" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding:0.75rem 1.25rem;" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07C1.86 17.05 5.73 21.19 10.58 21.98v-7.02H8.12v-2.9h2.46V9.41c0-2.43 1.45-3.77 3.67-3.77 1.06 0 2.17.19 2.17.19v2.4h-1.23c-1.21 0-1.59.75-1.59 1.53v1.82h2.7l-.43 2.9h-2.27V21.98C18.27 21.19 22 17.05 22 12.07z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/itzzzz.lloyd" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding:0.75rem 1.25rem;" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.09A4.91 4.91 0 1 0 16.91 13 4.91 4.91 0 0 0 12 8.09zM18.5 6.5a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z"/></svg>
+        </a>
+        <a href="https://github.com/JLAdlaw" target="_blank" rel="noopener noreferrer" class="btn-ghost" style="padding:0.75rem 1.25rem;" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12.02C.5 17 3.44 21.1 7.8 22.7c.57.1.78-.25.78-.55v-2c-3.18.7-3.85-1.37-3.85-1.37-.52-1.34-1.27-1.7-1.27-1.7-1.04-.7.08-.68.08-.68 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.33.95.1-.75.4-1.24.73-1.52-2.54-.3-5.22-1.28-5.22-5.68 0-1.25.45-2.28 1.18-3.09-.12-.3-.51-1.52.11-3.17 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.65.24 2.87.12 3.17.73.81 1.18 1.84 1.18 3.09 0 4.41-2.69 5.37-5.25 5.66.41.35.77 1.04.77 2.1v3.12c0 .3.21.65.79.54A11.52 11.52 0 0 0 23.5 12.02 11.5 11.5 0 0 0 12 .5z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-form-col">
+      <form id="contactForm" novalidate>
+        <div class="form-group reveal delay-1">
+          <label for="formName" class="form-label">Your Name</label>
+          <input type="text" id="formName" class="form-input" placeholder="John Doe" required autocomplete="name">
+        </div>
+        <div class="form-group reveal delay-2">
+          <label for="formContact" class="form-label">Contact Number</label>
+          <input type="tel" id="formContact" class="form-input" placeholder="+63 900 000 0000" required autocomplete="tel">
+        </div>
+        <div class="form-group reveal delay-3">
+          <label for="formEmail" class="form-label">Email Address</label>
+          <input type="email" id="formEmail" class="form-input" placeholder="you@example.com" required autocomplete="email">
+        </div>
+        <div class="form-group reveal delay-4">
+          <label for="formMessage" class="form-label">Your Message</label>
+          <textarea id="formMessage" class="form-textarea" placeholder="Tell me about your project..." required rows="5"></textarea>
+        </div>
+        <div class="reveal delay-5">
+          <button type="submit" class="btn-primary" style="width:100%; text-align:center; border:none; cursor:pointer;">
+            Send Message →
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Submissions Table -->
+  <div class="submissions-wrapper" id="submissionsWrapper">
+    <hr class="divider" style="margin: 4rem 0 2.5rem;">
+    <h3 class="submissions-title">Form Submissions</h3>
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Contact</th>
+            <th class="hide-sm">Email</th>
+            <th class="hide-md">Message</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="submissionsTable"></tbody>
+      </table>
+    </div>
+    <button class="clear-all-btn" id="clearAllBtn">Clear All Submissions</button>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─────────────────────────────── -->
+<footer role="contentinfo">
+  <div class="footer-contact-strip reveal">
+    <span class="footer-contact-item"><a href="mailto:j.adlao20@gmail.com">j.adlao20@gmail.com</a></span>
+    <span class="footer-contact-item"><a href="tel:+639151898630">+63 915 189 8630</a></span>
+    <span class="footer-contact-item">Davao City, Philippines</span>
+  </div>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-logo">JOHN<br>LLOYD<br><em>ADLAW</em></div>
+      <p class="footer-tagline">A Creative Web Developer</p>
+    </div>
+    <ul class="footer-nav" aria-label="Footer navigation">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2026 John Lloyd Adlaw. All Rights Reserved.</p>
+    <div class="footer-socials" aria-label="Social links">
+      <a href="https://www.facebook.com/johnlloyd.adlao.1" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M22 12.07C22 6.48 17.52 2 11.93 2S1.86 6.48 1.86 12.07C1.86 17.05 5.73 21.19 10.58 21.98v-7.02H8.12v-2.9h2.46V9.41c0-2.43 1.45-3.77 3.67-3.77 1.06 0 2.17.19 2.17.19v2.4h-1.23c-1.21 0-1.59.75-1.59 1.53v1.82h2.7l-.43 2.9h-2.27V21.98C18.27 21.19 22 17.05 22 12.07z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/itzzzz.lloyd" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.09A4.91 4.91 0 1 0 16.91 13 4.91 4.91 0 0 0 12 8.09zM18.5 6.5a1.1 1.1 0 1 0 1.1 1.1 1.1 1.1 0 0 0-1.1-1.1z"/></svg>
+      </a>
+      <a href="https://github.com/JLAdlaw" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12.02C.5 17 3.44 21.1 7.8 22.7c.57.1.78-.25.78-.55v-2c-3.18.7-3.85-1.37-3.85-1.37-.52-1.34-1.27-1.7-1.27-1.7-1.04-.7.08-.68.08-.68 1.15.08 1.75 1.18 1.75 1.18 1.02 1.74 2.68 1.24 3.33.95.1-.75.4-1.24.73-1.52-2.54-.3-5.22-1.28-5.22-5.68 0-1.25.45-2.28 1.18-3.09-.12-.3-.51-1.52.11-3.17 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.79 0c2.2-1.5 3.17-1.18 3.17-1.18.63 1.65.24 2.87.12 3.17.73.81 1.18 1.84 1.18 3.09 0 4.41-2.69 5.37-5.25 5.66.41.35.77 1.04.77 2.1v3.12c0 .3.21.65.79.54A11.52 11.52 0 0 0 23.5 12.02 11.5 11.5 0 0 0 12 .5z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Submission details">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="Close modal">&times;</button>
+    <h3 class="modal-title">Submission Details</h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions">
+      <button id="modalDelete" class="btn-primary" style="background:var(--accent); border-color:var(--accent); flex:1; text-align:center;">Delete</button>
+      <button id="modalCloseBtn" class="btn-ghost" style="flex:1; text-align:center;">Close</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+<script>
+  function escapeHtml(text) {
+    const map = { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' };
+    return String(text).replace(/[&<>"']/g, m => map[m]);
+  }
+
+  function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = `toast ${type}`;
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  const themeBtn = document.getElementById('themeToggle');
+  const savedTheme = localStorage.getItem('jl-theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+    themeBtn.textContent = '☀️';
+  }
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.body.classList.toggle('dark');
+    themeBtn.textContent = isDark ? '☀️' : '🌙';
+    localStorage.setItem('jl-theme', isDark ? 'dark' : 'light');
+  });
+
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const isOpen = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', isOpen);
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-nav-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      hamburger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    });
+  });
+
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+  function checkReveal() {
+    revealEls.forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.88) {
+        el.classList.add('active');
+      }
+    });
+  }
+  window.addEventListener('scroll', checkReveal, { passive: true });
+  window.addEventListener('load', checkReveal);
+
+  const contactForm = document.getElementById('contactForm');
+  contactForm.addEventListener('submit', e => {
+    e.preventDefault();
+    const name    = document.getElementById('formName').value.trim();
+    const contact = document.getElementById('formContact').value.trim();
+    const email   = document.getElementById('formEmail').value.trim();
+    const message = document.getElementById('formMessage').value.trim();
+
+    if (!name || !contact || !email || !message) {
+      showToast('Please fill in all fields.', 'error');
+      return;
+    }
+
+    const submission = {
+      id: Date.now(), name, contact, email, message,
+      timestamp: new Date().toLocaleString()
+    };
+
+    const submissions = JSON.parse(localStorage.getItem('jl-submissions') || '[]');
+    submissions.push(submission);
+    localStorage.setItem('jl-submissions', JSON.stringify(submissions));
+    contactForm.reset();
+    showToast('Message sent successfully!', 'success');
+    renderSubmissions();
+  });
+
+  function renderSubmissions() {
+    const submissions = JSON.parse(localStorage.getItem('jl-submissions') || '[]');
+    const wrapper = document.getElementById('submissionsWrapper');
+    const tbody   = document.getElementById('submissionsTable');
+
+    if (!submissions.length) {
+      wrapper.classList.remove('visible');
+      return;
+    }
+    wrapper.classList.add('visible');
+    tbody.innerHTML = '';
+
+    [...submissions].reverse().forEach(sub => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(sub.name)}</td>
+        <td>${escapeHtml(sub.contact)}</td>
+        <td style="display:table-cell;" class="hide-sm">${escapeHtml(sub.email)}</td>
+        <td style="display:table-cell;" class="hide-md">${escapeHtml(sub.message).substring(0,55)}${sub.message.length>55?'…':''}</td>
+        <td>
+          <button class="tbl-action-btn tbl-view" onclick="openModal(${sub.id})">View</button>
+          <button class="tbl-action-btn tbl-delete" onclick="deleteSubmission(${sub.id})">Delete</button>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  let activeModalId = null;
+  function openModal(id) {
+    const submissions = JSON.parse(localStorage.getItem('jl-submissions') || '[]');
+    const sub = submissions.find(s => s.id === id);
+    if (!sub) return;
+    activeModalId = id;
+
+    document.getElementById('modalBody').innerHTML = `
+      <div class="modal-field"><div class="modal-label">Name</div><div class="modal-value">${escapeHtml(sub.name)}</div></div>
+      <div class="modal-field"><div class="modal-label">Contact</div><div class="modal-value">${escapeHtml(sub.contact)}</div></div>
+      <div class="modal-field"><div class="modal-label">Email</div><div class="modal-value">${escapeHtml(sub.email)}</div></div>
+      <div class="modal-field"><div class="modal-label">Message</div><div class="modal-value">${escapeHtml(sub.message)}</div></div>
+      <div class="modal-field"><div class="modal-label">Submitted</div><div class="modal-value">${sub.timestamp}</div></div>
+    `;
+    document.getElementById('modalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    activeModalId = null;
+  }
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  document.getElementById('modalOverlay').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+  document.getElementById('modalDelete').addEventListener('click', () => {
+    if (activeModalId) { deleteSubmission(activeModalId); closeModal(); }
+  });
+
+  function deleteSubmission(id) {
+    if (!confirm('Delete this submission?')) return;
+    let subs = JSON.parse(localStorage.getItem('jl-submissions') || '[]');
+    subs = subs.filter(s => s.id !== id);
+    localStorage.setItem('jl-submissions', JSON.stringify(subs));
+    showToast('Submission deleted.');
+    renderSubmissions();
+  }
+
+  document.getElementById('clearAllBtn').addEventListener('click', () => {
+    if (!confirm('Clear ALL submissions? This cannot be undone!')) return;
+    localStorage.removeItem('jl-submissions');
+    showToast('All submissions cleared.');
+    renderSubmissions();
+  });
+
+  document.addEventListener('DOMContentLoaded', renderSubmissions);
+</script>
+</body>
+</html>
